@@ -136,6 +136,9 @@ func setupSQLite(tb testing.TB, withMutex bool) *sqlite.DB {
 	db, err := sql.Open("sqlite3", path.Join(tb.TempDir(), "benchmark.db")+"?_journal=WAL&_timeout=10000&_fk=true")
 	noErr(tb, err)
 
+	_, err = db.Exec("PRAGMA synchronous=FULL")
+	noErr(tb, err)
+
 	_, err = db.Exec(sqliteSchema)
 	noErr(tb, err)
 
